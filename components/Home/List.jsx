@@ -7,7 +7,7 @@ const List = () => {
   return (
     <View className="pt-10">
       <View>
-        <Pressable className="flex-row items-center border-2 py-1 px-2 w-32 rounded-full mb-2" style={{columnGap: 10}}>
+        <Pressable className="flex-row items-center border-2 py-1 px-2 w-32 rounded-full mb-2 space-x-2 justify-center">
           <Text className="text-base font-semibold">This Week</Text>
           <Entypo name="chevron-thin-down" size={20} />
         </Pressable>
