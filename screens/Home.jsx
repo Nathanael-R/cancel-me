@@ -11,8 +11,7 @@ const Home = () => {
     <ScrollView className="px-5">
       <Dates />
       <List />
-      {/* <Results /> */}
-      <Plans />
+      <Results />
     </ScrollView>
   )
 }
