@@ -8,11 +8,14 @@ import Results from '../components/Home/Results'
 
 const Home = () => {
   return (
-    <ScrollView className="px-5">
+    <View className="px-5 relative">
+      <ScrollView showsVerticalScrollIndicator={false}>
       <Dates />
       <List />
-      <Results />
-    </ScrollView>
+      <Plans />
+      </ScrollView>
+      <Results /> 
+    </View>
   )
 }
 
