@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import AddPlan from "./components/Modal/AddPlan";
 import PlanInfo from "./components/Modal/PlanInfo";
+import Account from "./screens/Account";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -14,8 +15,9 @@ export default function App() {
     <NavigationContainer>
       <SafeAreaView style={{ flex: 1 }}>
         {/* <Home /> */}
-        <PlanInfo />
+        {/* <PlanInfo /> */}
         {/* <AddPlan /> */}
+        <Account/>
         <StatusBar style="auto" />
       </SafeAreaView>
     </NavigationContainer>
