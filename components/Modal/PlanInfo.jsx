@@ -1,12 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import React from "react";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import { Image } from "react-native";
 const PlanInfo = () => {
   return (
-    <View className="px-5 space-y-5">
-      <Text className="font-semibold text-xl tracking-wider">
+    <ScrollView className="px-5 space-y-5">
+      <Text className="font-semibold text-xl tracking-wider mt-6">
         Look at the Northern Lights
       </Text>
       <View className="flex-row space-x-2 items-center">
@@ -33,16 +33,16 @@ const PlanInfo = () => {
       <View className="space-y-5">
         <Text>Are you in or out</Text>
         <View className="flex-row justify-between">
-          <Pressable className="flex-row space-x-3 items-center justify-center border-2 rounded-full px-5 py-1">
+          <Pressable className="flex-row space-x-3 items-center justify-center border-2 rounded-full w-[49%] py-1">
             <Text className="text-xl">I'm in</Text>
             <FontAwesome5 name="thumbs-up" size={25} />
           </Pressable>
-          <Pressable className="flex-row space-x-3 items-center justify-center border-2 rounded-full px-5 py-1">
+          <Pressable className="flex-row space-x-3 items-center justify-center border-2 rounded-full w-[49%] py-1">
             <Text className="text-xl">I'm out</Text>
             <FontAwesome5 name="thumbs-down" size={25} />
           </Pressable>
         </View>
-        <View className="h-60 items-center space-y-2">
+        <View className="h-60 items-center space-y-2 mb-16">
           <Image
             source={require("../../assets/confused-stickman.png")}
             className="h-full w-60"
@@ -50,7 +50,7 @@ const PlanInfo = () => {
           <Text className="font-semibold text-base text-slate-600">You need to vote to see the poll results</Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

@@ -13,8 +13,8 @@ const List = () => {
         </Pressable>
       </View>
       <View className="items-center justify-center">
-        <Image source={require('../../assets/stickman.png')} className="h-40 w-full mb-4"/>
-        <Text className="font-medium text-base">You have no plans for this week</Text>
+        <Image source={require('../../assets/stickman.jpg')} className="h-40 w-full mb-4"/>
+        <Text className="font-medium text-base text-slate-500">You have no plans coming up this week</Text>
       </View>
     </View>
   );

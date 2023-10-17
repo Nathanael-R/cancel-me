@@ -1,6 +1,7 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import React from "react";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native"; 
 
 const planData = [
   {
@@ -14,7 +15,7 @@ const planData = [
     id: 2,
     title: "Picnic",
     location: "Figma's park",
-    date: "!4 Aug",
+    date: "14 Aug",
     priority: "High",
   },
   {
@@ -27,6 +28,7 @@ const planData = [
 ];
 
 const Plans = () => {
+  const navigation = useNavigation()
   return (
     <View className="py-10">
       <Text className="text-base mb-4">Upcoming Plans</Text>
@@ -45,9 +47,9 @@ const Plans = () => {
               <Text className="text-base font-semibold">{plan.date}</Text>
             </View>
             <View className="flex-row justify-between">
-              <Text className="bg-[#E4BC2B] w-20 text-center py-2 rounded-full">
-                {plan.priority}
-              </Text>
+              <TouchableOpacity onPress={() => navigation.navigate("PlanInfo")} className="text-center p-2 rounded-full">
+                <Text className="border-b-dashed border-b-2">View Details</Text>
+              </TouchableOpacity>
               <View className="flex-row justify-between space-x-2">
                 <Pressable className="flex-row items-center justify-center space-x-2 border-2 px-2 rounded-full">
                   <Text className="text-base font-medium">I'm in</Text>

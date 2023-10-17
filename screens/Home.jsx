@@ -8,7 +8,7 @@ import Results from '../components/Home/Results'
 
 const Home = () => {
   return (
-    <View className="px-5 relative">
+    <View className="px-5 relative bg-white">
       <ScrollView showsVerticalScrollIndicator={false}>
       <Dates />
       <List />
