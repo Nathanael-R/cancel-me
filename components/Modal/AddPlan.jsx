@@ -8,10 +8,10 @@ import {
 } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { Checkbox } from "expo-checkbox";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Crypto from "expo-crypto";
+import Checkboxes from "./Checkboxes";
 const levels = [
   {
     id: 1,
@@ -29,28 +29,40 @@ const levels = [
     color: "#FF0000",
   },
 ];
-const times = [
-  {
-    id: 1,
-    title: "30 minutes",
-  },
-  {
-    id: 2,
-    title: "2 hours",
-  },
-  {
-    id: 3,
-    title: "6 hours",
-  },
-  {
-    id: 4,
-    title: "12 hours",
-  },
-];
 const AddPlan = () => {
+  const [times, setTimes] = React.useState([
+    {id: 1, title: "30 minutes", isChecked: false},
+    {id: 2, title: "2 hours", isChecked: false},
+    {id: 3, title: "6 hours", isChecked: false},
+    {id: 4, title: "12 hours", isChecked: false},
+  ])
   const randomUUID = Crypto.randomUUID();
-  const [plans, setPlans] = React.useState([]);
 
+  const checkChange = id => {
+    const updateCheck = times.map(time => ({
+      ...time,
+      isChecked: time.id === id
+    }))
+    setTimes(updateCheck)
+  }
+
+  const prior = (idx) => {
+    if (idx == 0) {
+      setNewPlan({
+        ...newPlan,
+        priority: "Low",
+      });
+    } else if (idx == 1) {
+      setNewPlan({
+        ...newPlan,
+        priority: "Medium",
+      });
+    } else
+      setNewPlan({
+        ...newPlan,
+        priority: "High",
+      });
+  };
   const [newPlan, setNewPlan] = React.useState({
     id: randomUUID,
     title: "",
@@ -108,9 +120,15 @@ const AddPlan = () => {
         <View>
           <Text className="text-base font-semibold">Description</Text>
           <TextInput
-            placeholder="Add a description (optional)"
+            placeholder="Add a description"
+            placeholderTextColor="grey"
             multiline
             className="text-base font-semibold px-3 py-1 h-12"
+            value={newPlan.description}
+            onChangeText={text => setNewPlan({
+              ...newPlan,
+              description: text
+            })}
           />
         </View>
       </View>
@@ -121,7 +139,7 @@ const AddPlan = () => {
           {levels.map((lvl, idx) => {
             return (
               <Pressable
-                onPress={() => console.log(idx)}
+                onPress={() => prior(idx)}
                 style={{ backgroundColor: lvl.color }}
                 className="px-4 py-1 rounded-full"
                 key={idx}
@@ -139,14 +157,14 @@ const AddPlan = () => {
           {times.map((time) => {
             return (
               <View key={time.id} className="flex-row items-center space-x-3">
-                <Checkbox style={{ height: 25, width: 25 }} />
+                <Checkboxes isChecked={time.isChecked} onValueChange={() => checkChange(time.id)}/>
                 <Text className="text-lg">{time.title}</Text>
               </View>
             );
           })}
         </View>
       </View>
-      <TouchableOpacity className="border-2 items-center justify-center py-2 px-3 rounded-lg bg-[#FF9900] flex-row space-x-2 mb-6">
+      <TouchableOpacity onPress={() => console.log(newPlan)} className="border-2 items-center justify-center py-2 px-3 rounded-lg bg-[#FF9900] flex-row space-x-2 mb-6">
         <Text className="font-semibold text-lg">Post plan</Text>
         <MaterialIcons name="post-add" size={30} />
       </TouchableOpacity>
