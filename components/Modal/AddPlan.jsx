@@ -12,6 +12,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Crypto from "expo-crypto";
 import Checkboxes from "./Checkboxes";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 const levels = [
   {
     id: 1,
@@ -30,22 +31,46 @@ const levels = [
   },
 ];
 const AddPlan = () => {
-  const [times, setTimes] = React.useState([
-    {id: 1, title: "30 minutes", isChecked: false},
-    {id: 2, title: "2 hours", isChecked: false},
-    {id: 3, title: "6 hours", isChecked: false},
-    {id: 4, title: "12 hours", isChecked: false},
-  ])
   const randomUUID = Crypto.randomUUID();
+  const [date, setDate] = React.useState(new Date());
+  const [newPlan, setNewPlan] = React.useState({
+    id: randomUUID,
+    title: "",
+    location: "",
+    date: "",
+    setTime: "",
+    description: "",
+    priority: "",
+  });
+  const [times, setTimes] = React.useState([
+    { id: 1, title: "30 minutes", isChecked: false },
+    { id: 2, title: "2 hours", isChecked: false },
+    { id: 3, title: "6 hours", isChecked: false },
+    { id: 4, title: "12 hours", isChecked: false },
+  ]);
 
-  const checkChange = id => {
-    const updateCheck = times.map(time => ({
+  // React.useEffect(() => {
+  //   console.log(newPlan)
+  // }, [timeWithoutSeconds])
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setDate(currentDate);
+  };
+  const selectMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: date,
+      mode: currentMode,
+      is24Hour: true, // Will display time picker in 24 hour format instead of AM/PM format
+      onChange,
+    });
+  };
+  const checkChange = (id) => {
+    const updateCheck = times.map((time) => ({
       ...time,
-      isChecked: time.id === id
-    }))
-    setTimes(updateCheck)
-  }
-
+      isChecked: time.id === id,
+    }));
+    setTimes(updateCheck);
+  };
   const prior = (idx) => {
     if (idx == 0) {
       setNewPlan({
@@ -63,18 +88,46 @@ const AddPlan = () => {
         priority: "High",
       });
   };
-  const [newPlan, setNewPlan] = React.useState({
-    id: randomUUID,
-    title: "",
-    location: "",
-    date: "",
-    setTime: "",
-    description: "",
-    priority: "",
-  });
+  const showDate = () => {
+    selectMode("date");
+  };
+  const setNew = () => {
+    setNewPlan((newPlan, dateString) => {
+      const updatedPlan = {
+        ...newPlan,
+        date: dateString, // Replace "some" with your actual value
+      };
+      console.log(updatedPlan);
+      return updatedPlan;
+    });
+  };
+  // const showDate = () => {
+  //   selectMode("date");
+  //   setNewPlan((newPlan) => {
+  //     const updatedPlan = {
+  //       ...newPlan,
+  //      date: dateString
+  //     }
+  //     console.log(updatedPlan)
+  //   })
+  // };
+  const showTime = () => {
+    selectMode("time");
+    setNewPlan({
+      ...newPlan,
+      setTime: timeWithoutSeconds,
+    });
+  };
+
   // function addNewPlan() {
   //   setPlans((prev) => [...prev, newPlan]);
   // }
+  const timeString = date.toLocaleTimeString();
+  const parts = timeString.split(":");
+  parts.pop(); // Remove the last element, which is the seconds
+  const timeWithoutSeconds = parts.join(":");
+
+  const dateString = date.toDateString();
   return (
     <ScrollView className="px-5 flex-1 space-y-8">
       <View className="space-y-5 mt-12">
@@ -95,26 +148,46 @@ const AddPlan = () => {
             className="text-lg font-semibold outline-none"
           />
         </View>
-        <View className="flex-row justify-between items-center">
-          <View className="flex-row space-x-2 items-center">
-            <Ionicons name="md-calendar-sharp" size={25} />
-            <TextInput
+        <View>
+          <View className="flex-row justify-between mb-2">
+            <Text className="text-base font-semibold">
+              {date.toDateString()}
+            </Text>
+            <Text className="text-base font-semibold">
+              {timeWithoutSeconds}
+            </Text>
+          </View>
+          <View className="flex-row justify-between items-center">
+            <Pressable
+              onPress={() => {
+                showDate();
+              }}
+              className="flex-row w-[49%] space-x-2 items-center justify-center border-2 rounded-full py-1"
+            >
+              <Ionicons name="md-calendar-sharp" size={20} />
+              <Text className="text-base font-semibold">Set a date</Text>
+              {/* <TextInput
               placeholder="Add a Date"
               placeholderTextColor="grey"
               value={newPlan.date}
               onChangeText={(text) => setNewPlan({ ...newPlan, date: text })}
               className="text-base outline-none font-semibold"
-            />
-          </View>
-          <View className="flex-row space-x-2 items-center">
-            <Ionicons name="ios-time-outline" size={25} />
-            <TextInput
+            /> */}
+            </Pressable>
+            <Pressable
+              onPress={() => showTime()}
+              className="flex-row w-[49%] space-x-2 items-center justify-center border-2 rounded-full py-1"
+            >
+              <Ionicons name="ios-time-outline" size={20} />
+              <Text className="text-base font-semibold">Set a time</Text>
+              {/* <TextInput
               placeholder="Add a Time"
               placeholderTextColor="grey"
               value={newPlan.setTime}
               onChangeText={(text) => setNewPlan({ ...newPlan, setTime: text })}
               className="text-base font-semibold outline-none"
-            />
+            /> */}
+            </Pressable>
           </View>
         </View>
         <View>
@@ -125,10 +198,12 @@ const AddPlan = () => {
             multiline
             className="text-base font-semibold px-3 py-1 h-12"
             value={newPlan.description}
-            onChangeText={text => setNewPlan({
-              ...newPlan,
-              description: text
-            })}
+            onChangeText={(text) =>
+              setNewPlan({
+                ...newPlan,
+                description: text,
+              })
+            }
           />
         </View>
       </View>
@@ -157,14 +232,20 @@ const AddPlan = () => {
           {times.map((time) => {
             return (
               <View key={time.id} className="flex-row items-center space-x-3">
-                <Checkboxes isChecked={time.isChecked} onValueChange={() => checkChange(time.id)}/>
+                <Checkboxes
+                  isChecked={time.isChecked}
+                  onValueChange={() => checkChange(time.id)}
+                />
                 <Text className="text-lg">{time.title}</Text>
               </View>
             );
           })}
         </View>
       </View>
-      <TouchableOpacity onPress={() => console.log(newPlan)} className="border-2 items-center justify-center py-2 px-3 rounded-lg bg-[#FF9900] flex-row space-x-2 mb-6">
+      <TouchableOpacity
+        onPress={() => console.log(newPlan)}
+        className="border-2 items-center justify-center py-2 px-3 rounded-lg bg-[#FF9900] flex-row space-x-2 mb-6"
+      >
         <Text className="font-semibold text-lg">Post plan</Text>
         <MaterialIcons name="post-add" size={30} />
       </TouchableOpacity>

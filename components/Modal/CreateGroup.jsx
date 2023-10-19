@@ -2,8 +2,22 @@ import { View, Text, TextInput, Switch, Pressable } from "react-native";
 import React from "react";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 const CreateGroup = () => {
-  const [isEnabled, setIsEnabled] = React.useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const SwitchComp = () => {
+    const [isEnabled, setIsEnabled] = React.useState(false);
+    const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+    return (
+      <View>
+        <Switch
+                trackColor={{ false: "#76757740", true: "#81b0ff" }}
+                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+      </View>
+    )
+  }
+
   return (
     <View className="px-5 py-10 flex-1 justify-between">
       <View>
@@ -24,13 +38,7 @@ const CreateGroup = () => {
               <Text className="text-base font-semibold">
                 Enable Anonymous Participation
               </Text>
-              <Switch
-                trackColor={{ false: "#76757740", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
+              <SwitchComp />
             </View>
             <View className="bg-slate-100 rounded-lg flex-row space-x-2 p-2 items-center">
               <AntDesign name="exclamationcircleo" size={25} color="grey" />
@@ -45,13 +53,7 @@ const CreateGroup = () => {
               <Text className="text-base font-semibold">
                 Anyone can make plans
               </Text>
-              <Switch
-                trackColor={{ false: "#76757740", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
+              <SwitchComp />
             </View>
             <View className="bg-slate-100 rounded-lg flex-row space-x-2 p-2 items-center">
               <AntDesign name="exclamationcircleo" size={25} color="grey" />

@@ -16,8 +16,8 @@ const RootNavigation = () => {
         {/* <Root.Screen name="DrawerNav" component={DrawerNav} options={{headerShown: false}}/>
         <Root.Screen name="NewScreen" component={NewScreen} />
         <Root.Screen name="PlanInfo" component={PlanInfo} />
-        <Root.Screen name="JoinGroup" component={JoinGroup} />
-        <Root.Screen name="CreateGroup" component={CreateGroup} /> */}
+        <Root.Screen name="JoinGroup" component={JoinGroup} /> */}
+        <Root.Screen name="CreateGroup" component={CreateGroup} />
         <Root.Screen name="AddPlan" component={AddPlan} options={{headerShown: false}}/>
       </Root.Group>
     </Root.Navigator>
